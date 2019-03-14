@@ -1,57 +1,28 @@
-# Project Name
+# [HDInsight](https://azure.microsoft.com/en-us/services/hdinsight/) Java SDK Samples
 
-(short, 1-3 sentenced, description of the project)
+This repo provides samples for the [HDInsight](https://azure.microsoft.com/en-us/services/hdinsight/) Java SDK.
+**If you are interetsed in running a specific example, you can navigate to the corresponding subfolder and check out the individual Readme.**
 
 ## Features
 
-This project framework provides the following features:
-
-* Feature 1
-* Feature 2
-* ...
+Samples showing use of the [HDInsight](https://azure.microsoft.com/en-us/services/hdinsight/) Java SDK.
+Idea behind these samples is to showcase 1) how to utilize Java SDK and 2) best practices while handling data for/from these APIs.
 
 ## Getting Started
 
+Get more information on HDInsight offerings from [here](https://azure.microsoft.com/en-us/services/hdinsight/).
+This should provide you information on various APIs along with their demos and documentation.
+
 ### Prerequisites
 
-(ideally very short, if any)
+All samples in this folder require:
 
-- OS
-- Library version
-- ...
-
-### Installation
-
-(ideally very short)
-
-- npm install [package name]
-- mvn install
-- ...
-
-### Quickstart
-(Add steps to get up and running quickly)
-
-1. git clone [repository clone url]
-2. cd [respository name]
-3. ...
-
-
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
+- JDK 7 or higher. Either [OpenJDK](http://openjdk.java.net/) or [Oracle Java](https://www.oracle.com/java/index.html) work.
+- HDInsight Java SDK. You can get the package through maven [here](https://mvnrepository.com/artifact/com.microsoft.azure.hdinsight.v2018_06_01_preview/azure-mgmt-hdinsight).
 
 ## Resources
 
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+- Project page for HDInsight offerings and demos: <https://azure.microsoft.com/en-us/services/hdinsight>
+- Azure HDInsight management SDK documentation: <https://azure.microsoft.com/en-us/blog/new-azure-hdinsight-management-sdk-now-in-public-preview/>
+- HDInsight C# SDK samples: <https://github.com/Azure-Samples/hdinsight-dotnet-sdk-samples>
+- HDInsight Python SDK samples: <https://github.com/Azure-Samples/hdinsight-python-sdk-samples>
