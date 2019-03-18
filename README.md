@@ -1,12 +1,11 @@
 # [HDInsight](https://azure.microsoft.com/en-us/services/hdinsight/) Java SDK Samples
 
 This repo provides samples for the [HDInsight](https://azure.microsoft.com/en-us/services/hdinsight/) Java SDK.
-**If you are interetsed in running a specific example, you can navigate to the corresponding subfolder and check out the individual Readme.**
 
 ## Features
 
 Samples showing use of the [HDInsight](https://azure.microsoft.com/en-us/services/hdinsight/) Java SDK.
-Idea behind these samples is to showcase 1) how to utilize Java SDK and 2) best practices while handling data for/from these APIs.
+The idea behind these samples is to showcase 1) how to utilize the HDInsight Java SDK and 2) best practices for handling data associated with these APIs.
 
 ## Getting Started
 
@@ -22,7 +21,7 @@ All samples in this folder require:
 
 ## Resources
 
-- Project page for HDInsight offerings and demos: <https://azure.microsoft.com/en-us/services/hdinsight>
-- Azure HDInsight management SDK documentation: <https://azure.microsoft.com/en-us/blog/new-azure-hdinsight-management-sdk-now-in-public-preview/>
-- HDInsight C# SDK samples: <https://github.com/Azure-Samples/hdinsight-dotnet-sdk-samples>
+- Azure HDInsight Java SDK documentation: <https://docs.microsoft.com/en-us/java/api/overview/azure/hdinsight?view=azure-java-stable>
+- HDInsight .NET SDK samples: <https://github.com/Azure-Samples/hdinsight-dotnet-sdk-samples>
 - HDInsight Python SDK samples: <https://github.com/Azure-Samples/hdinsight-python-sdk-samples>
+- HDInsight Documentation: <https://docs.microsoft.com/en-us/azure/hdinsight/>
