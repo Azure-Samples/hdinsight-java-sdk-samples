@@ -79,8 +79,8 @@ public class CreateHadoopClusterWithAdlsGen2Sample {
                 )
             );
 
-        System.out.printf("Start to create HDInsight Hadoop cluster %s with Azure Data Lake Storage Gen2\n", CLUSTER_NAME);
+        System.out.printf("Starting to create HDInsight Hadoop cluster %s with Azure Data Lake Storage Gen2\n", CLUSTER_NAME);
         manager.clusters().inner().create(RESOURCE_GROUP_NAME, CLUSTER_NAME, createParams);
-        System.out.printf("Finish creating HDInsight Hadoop cluster %s with Azure Data Lake Storage Gen2\n", CLUSTER_NAME);
+        System.out.printf("Finished creating HDInsight Hadoop cluster %s with Azure Data Lake Storage Gen2\n", CLUSTER_NAME);
     }
 }

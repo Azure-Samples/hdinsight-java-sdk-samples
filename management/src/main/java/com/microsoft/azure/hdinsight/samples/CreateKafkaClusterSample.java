@@ -95,8 +95,8 @@ public class CreateKafkaClusterSample {
                 )
             );
 
-        System.out.printf("Start to create HDInsight Kafka cluster %s\n", CLUSTER_NAME);
+        System.out.printf("Starting to create HDInsight Kafka cluster %s\n", CLUSTER_NAME);
         manager.clusters().inner().create(RESOURCE_GROUP_NAME, CLUSTER_NAME, createParams);
-        System.out.printf("Finish creating HDInsight Kafka cluster %s\n", CLUSTER_NAME);
+        System.out.printf("Finished creating HDInsight Kafka cluster %s\n", CLUSTER_NAME);
     }
 }
