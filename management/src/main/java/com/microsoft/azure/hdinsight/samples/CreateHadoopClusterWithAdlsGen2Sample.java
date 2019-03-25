@@ -74,7 +74,8 @@ public class CreateHadoopClusterWithAdlsGen2Sample {
                             .withName(adlsGen2AccountName  + DFS_ENDPOINT_SUFFIX)
                             .withIsDefault(true)
                             .withFileSystem(ADLS_GEN2_FILE_SYSTEM_NAME)
-                            .withKey(STORAGE_ACCOUNT_KEY)
+                            .withResourceId(ADLS_GEN2_RESOURCE_ID)
+                            .withMsiResourceId(MANAGED_IDENTITY_RESOURCE_ID)
                     ))
                 )
             );
