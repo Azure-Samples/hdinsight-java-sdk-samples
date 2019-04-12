@@ -1,3 +1,10 @@
+---
+services: hdinsight
+platforms: java
+author: tylerfox
+ms.author: tyfox
+---
+
 # [HDInsight](https://azure.microsoft.com/en-us/services/hdinsight/) Java SDK Samples
 
 This repo provides samples for the [HDInsight](https://azure.microsoft.com/en-us/services/hdinsight/) Java SDK.
