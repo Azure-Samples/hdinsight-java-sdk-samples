@@ -15,7 +15,7 @@ Java samples showing use of the HDInsight SDK for Java.  The idea behind these s
 
 ## Getting Started
 
-If you are getting started with the HDInsight SDK for Java for the first time, start with [this documentation](https://docs.microsoft.com/java/api/overview/azure/hdinsight?view=azure-java-stable) for install and set up instructions.
+If you are getting started with the HDInsight SDK for Java for the first time, start with [this documentation](https://docs.microsoft.com/java/api/overview/azure/hdinsight?view=azure-java-stable) for install and setup instructions.
 
 ## Resources
 
