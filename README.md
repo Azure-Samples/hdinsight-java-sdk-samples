@@ -3,6 +3,7 @@ services: hdinsight
 platforms: java
 author: tylerfox
 ms.author: tyfox
+page_type: sample
 topic: sample
 languages:
   - java
