@@ -1,19 +1,16 @@
 ---
-services: hdinsight
-platforms: java
-author: tylerfox
-ms.author: tyfox
 page_type: sample
-topic: sample
 languages:
   - java
 products:
+  - azure
   - azure-hdinsight
 name: Azure HDInsight SDK for Java Samples
 urlFragment: azure-hdinsight-sdk-for-java-samples
+description: "This repo provides samples for the Azure HDInsight SDK for Java."
 ---
 
-# Azure [HDInsight](https://azure.microsoft.com/en-us/services/hdinsight/) SDK for Java Samples
+# Azure HDInsight SDK for Java Samples
 
 This repo provides samples for the Azure [HDInsight](https://azure.microsoft.com/en-us/services/hdinsight/) SDK for Java.
 
