@@ -2,6 +2,7 @@ package com.microsoft.azure.hdinsight.samples.Configurations;
 
 import com.microsoft.azure.hdinsight.samples.CreateEspClusterSample;
 import com.microsoft.azure.hdinsight.samples.CreateHadoopClusterWithAdlsGen2Sample;
+import com.microsoft.azure.hdinsight.samples.CreateLoadBasedAutoscaleEnabledHadoopCluster;
 import java.util.Random;
 
 public class AzureConfig {
@@ -33,6 +34,11 @@ public class AzureConfig {
    */
   public static final String CLUSTER_NAME =
       "hdisamplecluster" + (new Random().nextInt(9000) + 1000);
+
+  /**
+   * The version of the cluster you want to create. The current supported versions are 3.6 and 4.0
+   */
+  public static final String CLUSTER_VERSION = "3.6";
 
   /**
    * Choose a region. i.e. "East US 2". Required by all the samples.
@@ -140,4 +146,16 @@ public class AzureConfig {
    * Cluster access group Required by {@link CreateEspClusterSample}.
    */
   public static final String CLUSTER_ACCESS_GROUP = "Sample Group";
+
+  /**
+   * Minimum Instance count for Load Based Autoscale Required by {@link
+   * CreateLoadBasedAutoscaleEnabledHadoopCluster}
+   */
+  public static final int LOAD_BASED_AUTOSCALE_MIN_INSTANCE_COUNT = 3;
+
+  /**
+   * Maximum Instance count for Load Based Autoscale Required by {@link
+   * CreateLoadBasedAutoscaleEnabledHadoopCluster}
+   */
+  public static final int LOAD_BASED_AUTOSCALE_MAX_INSTANCE_COUNT = 5;
 }

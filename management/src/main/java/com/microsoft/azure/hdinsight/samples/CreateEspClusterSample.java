@@ -47,7 +47,7 @@ public class CreateEspClusterSample {
     ClusterCreateParametersExtended createParams = new ClusterCreateParametersExtended()
         .withLocation(AzureConfig.LOCATION)
         .withProperties(new ClusterCreateProperties()
-            .withClusterVersion("3.6")
+            .withClusterVersion(AzureConfig.CLUSTER_VERSION)
             .withOsType(OSType.LINUX)
             .withTier(Tier.PREMIUM)
             .withClusterDefinition(new ClusterDefinition()
