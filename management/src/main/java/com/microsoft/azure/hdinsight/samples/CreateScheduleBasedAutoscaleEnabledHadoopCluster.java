@@ -6,11 +6,14 @@ import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.hdinsight.samples.Configurations.AzureConfig;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.Autoscale;
-import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.AutoscaleCapacity;
+import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.AutoscaleRecurrence;
+import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.AutoscaleSchedule;
+import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.AutoscaleTimeAndCapacity;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.ClusterCreateParametersExtended;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.ClusterCreateProperties;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.ClusterDefinition;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.ComputeProfile;
+import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.DaysOfWeek;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.HardwareProfile;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.LinuxOperatingSystemProfile;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.OSType;
@@ -20,8 +23,10 @@ import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.StorageAccou
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.StorageProfile;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.Tier;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.implementation.HDInsightManager;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CreateLoadBasedAutoscaleEnabledHadoopCluster {
+public class CreateScheduleBasedAutoscaleEnabledHadoopCluster {
 
   public static void main(String[] args) {
 
@@ -34,6 +39,35 @@ public class CreateLoadBasedAutoscaleEnabledHadoopCluster {
 
     HDInsightManager manager = HDInsightManager
         .authenticate(credentials, AzureConfig.SUBSCRIPTION_ID);
+
+    // Schedule Based Autoscale Configuration
+    AutoscaleSchedule autoscaleSchedule = new AutoscaleSchedule();
+
+    // Days of Week when the Autoscale needs to be triggered
+    List<DaysOfWeek> daysOfWeek = new ArrayList<DaysOfWeek>();
+    daysOfWeek.add(DaysOfWeek.MONDAY);
+    autoscaleSchedule.withDays(daysOfWeek);
+
+    // List of Time when the Autoscale needs to be triggered
+    AutoscaleTimeAndCapacity autoscaleTimeAndCapacity = new AutoscaleTimeAndCapacity();
+    autoscaleTimeAndCapacity.withTime(AzureConfig.SCHEDULE_BASED_AUTOSCALE_TIME);
+    autoscaleTimeAndCapacity
+        .withMinInstanceCount(AzureConfig.SCHEDULE_BASED_AUTOSCALE_TARGET_INSTANCE_COUNT);
+    autoscaleTimeAndCapacity
+        .withMaxInstanceCount(AzureConfig.SCHEDULE_BASED_AUTOSCALE_TARGET_INSTANCE_COUNT);
+    autoscaleSchedule.withTimeAndCapacity(autoscaleTimeAndCapacity);
+
+    // List of schedule. A schedule contains a list of time and days of the week.
+    // example:
+    // [Monday, Tuesday] - [09:00, 14:00]
+    // [Friday] -[08:00]
+    List<AutoscaleSchedule> autoscaleScheduleList = new ArrayList<AutoscaleSchedule>();
+    autoscaleScheduleList.add(autoscaleSchedule);
+
+    // Autoscale Recurrence is a list of Schedules and the Timezone of the Schedules
+    AutoscaleRecurrence autoscaleRecurrence = new AutoscaleRecurrence();
+    autoscaleRecurrence.withTimeZone(AzureConfig.SCHEDULE_BASED_AUTOSCALE_TIMEZONE);
+    autoscaleRecurrence.withSchedule(autoscaleScheduleList);
 
     // Prepare cluster create parameters
     ClusterCreateParametersExtended createParams = new ClusterCreateParametersExtended()
@@ -77,11 +111,8 @@ public class CreateLoadBasedAutoscaleEnabledHadoopCluster {
                                     .withPassword(AzureConfig.PASSWORD)
                             )
                         )
-                        .withAutoscaleConfiguration(new Autoscale().withCapacity(
-                            new AutoscaleCapacity().withMinInstanceCount(
-                                AzureConfig.LOAD_BASED_AUTOSCALE_MIN_INSTANCE_COUNT)
-                                .withMaxInstanceCount(
-                                    AzureConfig.LOAD_BASED_AUTOSCALE_MIN_INSTANCE_COUNT)))
+                        .withAutoscaleConfiguration(
+                            new Autoscale().withRecurrence(autoscaleRecurrence))
                 ))
             )
             .withStorageProfile(new StorageProfile()
@@ -98,12 +129,12 @@ public class CreateLoadBasedAutoscaleEnabledHadoopCluster {
         );
 
     System.out
-        .printf("Starting to create Load based autoscale enabled HDInsight Hadoop cluster %s\n",
+        .printf("Starting to create Schedule based autoscale enabled HDInsight Hadoop cluster %s\n",
             AzureConfig.CLUSTER_NAME);
     manager.clusters().inner()
         .create(AzureConfig.RESOURCE_GROUP_NAME, AzureConfig.CLUSTER_NAME, createParams);
     System.out
-        .printf("Finished creating Load based autoscale enabled HDInsight Hadoop cluster %s\n",
+        .printf("Finished creating Scedhule based autoscale enabled HDInsight Hadoop cluster %s\n",
             AzureConfig.CLUSTER_NAME);
   }
 }
