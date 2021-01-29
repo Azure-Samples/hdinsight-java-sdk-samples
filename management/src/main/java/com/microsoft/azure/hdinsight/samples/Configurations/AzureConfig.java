@@ -3,6 +3,7 @@ package com.microsoft.azure.hdinsight.samples.Configurations;
 import com.microsoft.azure.hdinsight.samples.CreateEspClusterSample;
 import com.microsoft.azure.hdinsight.samples.CreateHadoopClusterWithAdlsGen2Sample;
 import com.microsoft.azure.hdinsight.samples.CreateLoadBasedAutoscaleEnabledHadoopCluster;
+import com.microsoft.azure.hdinsight.samples.CreateScheduleBasedAutoscaleEnabledHadoopCluster;
 import java.util.Random;
 
 public class AzureConfig {
@@ -158,4 +159,21 @@ public class AzureConfig {
    * CreateLoadBasedAutoscaleEnabledHadoopCluster}
    */
   public static final int LOAD_BASED_AUTOSCALE_MAX_INSTANCE_COUNT = 5;
+
+  /**
+   * Timezone for Schedule Based Autoscale Required by {@link CreateScheduleBasedAutoscaleEnabledHadoopCluster}
+   */
+  public static final String SCHEDULE_BASED_AUTOSCALE_TIMEZONE = "UTC";
+
+  /**
+   * Target Instance Count for Schedule Based Autoscale Required by {@link
+   * CreateScheduleBasedAutoscaleEnabledHadoopCluster}
+   */
+  public static final int SCHEDULE_BASED_AUTOSCALE_TARGET_INSTANCE_COUNT = 5;
+
+  /**
+   * List of time in HH:mm format when the autoscale should be triggered Required by {@link
+   * CreateScheduleBasedAutoscaleEnabledHadoopCluster}
+   */
+  public static final String SCHEDULE_BASED_AUTOSCALE_TIME = "09:00";
 }
