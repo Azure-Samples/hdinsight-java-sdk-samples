@@ -103,7 +103,7 @@ public class CreateEspClusterWithLoadBasedAutoscale {
                             new AutoscaleCapacity().withMinInstanceCount(
                                 AzureConfig.LOAD_BASED_AUTOSCALE_MIN_INSTANCE_COUNT)
                                 .withMaxInstanceCount(
-                                    AzureConfig.LOAD_BASED_AUTOSCALE_MIN_INSTANCE_COUNT)))
+                                    AzureConfig.LOAD_BASED_AUTOSCALE_MAX_INSTANCE_COUNT)))
                 ))
             )
             .withStorageProfile(new StorageProfile()
