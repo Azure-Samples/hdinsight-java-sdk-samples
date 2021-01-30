@@ -1,4 +1,4 @@
-package com.microsoft.azure.hdinsight.samples;
+package com.microsoft.azure.hdinsight.samples.autoscale;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;

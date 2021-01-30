@@ -1,4 +1,4 @@
-package com.microsoft.azure.hdinsight.samples;
+package com.microsoft.azure.hdinsight.samples.autoscale;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -10,18 +10,25 @@ import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.AutoscaleCap
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.ClusterCreateParametersExtended;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.ClusterCreateProperties;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.ClusterDefinition;
+import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.ClusterIdentity;
+import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.ClusterIdentityUserAssignedIdentitiesValue;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.ComputeProfile;
+import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.DirectoryType;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.HardwareProfile;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.LinuxOperatingSystemProfile;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.OSType;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.OsProfile;
+import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.ResourceIdentityType;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.Role;
+import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.SecurityProfile;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.StorageAccount;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.StorageProfile;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.Tier;
+import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.VirtualNetworkProfile;
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.implementation.HDInsightManager;
+import java.util.Collections;
 
-public class CreateLoadBasedAutoscaleEnabledHadoopCluster {
+public class CreateEspClusterWithLoadBasedAutoscale {
 
   public static void main(String[] args) {
 
@@ -35,15 +42,18 @@ public class CreateLoadBasedAutoscaleEnabledHadoopCluster {
     HDInsightManager manager = HDInsightManager
         .authenticate(credentials, AzureConfig.SUBSCRIPTION_ID);
 
+    String aaddsDnsDomainName = AzureConfig.AADDS_RESOURCE_ID
+        .substring(AzureConfig.AADDS_RESOURCE_ID.lastIndexOf("/") + 1);
+
     // Prepare cluster create parameters
     ClusterCreateParametersExtended createParams = new ClusterCreateParametersExtended()
         .withLocation(AzureConfig.LOCATION)
         .withProperties(new ClusterCreateProperties()
             .withClusterVersion(AzureConfig.CLUSTER_VERSION)
             .withOsType(OSType.LINUX)
-            .withTier(Tier.STANDARD)
+            .withTier(Tier.PREMIUM)
             .withClusterDefinition(new ClusterDefinition()
-                .withKind("Hadoop")
+                .withKind("Spark")
                 .withConfigurations(ImmutableMap.of(
                     "gateway", ImmutableMap.of(
                         "restAuthCredential.isEnabled", "true",
@@ -64,6 +74,12 @@ public class CreateLoadBasedAutoscaleEnabledHadoopCluster {
                                     .withUsername(AzureConfig.SSH_USER_NAME)
                                     .withPassword(AzureConfig.PASSWORD)
                             )
+                        )
+                        .withVirtualNetworkProfile(new VirtualNetworkProfile()
+                            .withId(AzureConfig.VIRTUAL_NETWORK_RESOURCE_ID)
+                            .withSubnet(String
+                                .format("%s/subnets/%s", AzureConfig.VIRTUAL_NETWORK_RESOURCE_ID,
+                                    AzureConfig.SUBNET_NAME))
                         ),
                     new Role().withName("workernode")
                         .withTargetInstanceCount(3)
@@ -77,11 +93,17 @@ public class CreateLoadBasedAutoscaleEnabledHadoopCluster {
                                     .withPassword(AzureConfig.PASSWORD)
                             )
                         )
+                        .withVirtualNetworkProfile(new VirtualNetworkProfile()
+                            .withId(AzureConfig.VIRTUAL_NETWORK_RESOURCE_ID)
+                            .withSubnet(String
+                                .format("%s/subnets/%s", AzureConfig.VIRTUAL_NETWORK_RESOURCE_ID,
+                                    AzureConfig.SUBNET_NAME))
+                        )
                         .withAutoscaleConfiguration(new Autoscale().withCapacity(
                             new AutoscaleCapacity().withMinInstanceCount(
                                 AzureConfig.LOAD_BASED_AUTOSCALE_MIN_INSTANCE_COUNT)
                                 .withMaxInstanceCount(
-                                    AzureConfig.LOAD_BASED_AUTOSCALE_MIN_INSTANCE_COUNT)))
+                                    AzureConfig.LOAD_BASED_AUTOSCALE_MAX_INSTANCE_COUNT)))
                 ))
             )
             .withStorageProfile(new StorageProfile()
@@ -95,15 +117,32 @@ public class CreateLoadBasedAutoscaleEnabledHadoopCluster {
 
                 ))
             )
+            .withSecurityProfile(new SecurityProfile()
+                .withDirectoryType(DirectoryType.ACTIVE_DIRECTORY)
+                .withLdapsUrls(Collections.singletonList(AzureConfig.LDAPS_URL))
+                .withDomainUsername(AzureConfig.DOMAIN_USER_NAME)
+                .withDomain(aaddsDnsDomainName)
+                .withClusterUsersGroupDNs(
+                    Collections.singletonList(AzureConfig.CLUSTER_ACCESS_GROUP))
+                .withAaddsResourceId(AzureConfig.AADDS_RESOURCE_ID)
+                .withMsiResourceId(AzureConfig.MANAGED_IDENTITY_RESOURCE_ID)
+            )
+        )
+        .withIdentity(new ClusterIdentity()
+            .withType(ResourceIdentityType.USER_ASSIGNED)
+            .withUserAssignedIdentities(ImmutableMap.of(
+                AzureConfig.MANAGED_IDENTITY_RESOURCE_ID,
+                new ClusterIdentityUserAssignedIdentitiesValue()
+            ))
         );
 
     System.out
-        .printf("Starting to create Load based autoscale enabled HDInsight Hadoop cluster %s\n",
+        .printf("Starting to create HDInsight Spark cluster with ESP and Load Based Autoscale %s\n",
             AzureConfig.CLUSTER_NAME);
     manager.clusters().inner()
         .create(AzureConfig.RESOURCE_GROUP_NAME, AzureConfig.CLUSTER_NAME, createParams);
     System.out
-        .printf("Finished creating Load based autoscale enabled HDInsight Hadoop cluster %s\n",
+        .printf("Finished creating HDInsight Spark cluster with ESP and Load Based Autoscale %s\n",
             AzureConfig.CLUSTER_NAME);
   }
 }

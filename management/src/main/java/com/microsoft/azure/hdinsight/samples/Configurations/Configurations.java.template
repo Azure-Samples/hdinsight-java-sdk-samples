@@ -2,8 +2,8 @@ package com.microsoft.azure.hdinsight.samples.Configurations;
 
 import com.microsoft.azure.hdinsight.samples.CreateEspClusterSample;
 import com.microsoft.azure.hdinsight.samples.CreateHadoopClusterWithAdlsGen2Sample;
-import com.microsoft.azure.hdinsight.samples.CreateLoadBasedAutoscaleEnabledHadoopCluster;
-import com.microsoft.azure.hdinsight.samples.CreateScheduleBasedAutoscaleEnabledHadoopCluster;
+import com.microsoft.azure.hdinsight.samples.autoscale.CreateLoadBasedAutoscaleEnabledHadoopCluster;
+import com.microsoft.azure.hdinsight.samples.autoscale.CreateScheduleBasedAutoscaleEnabledHadoopCluster;
 import java.util.Random;
 
 public class AzureConfig {
